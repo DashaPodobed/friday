@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import './App.css';
 import {LogIn} from "./components/c2-Login/Login";
 import {LogUp} from "./components/c1-Logup/Logup";
@@ -12,13 +12,15 @@ import {ErrorPage} from "./components/с6-error/ErrorPage";
 function App() {
     return (
         <div className="App">
-            <Route path="/log_in" component={()=><LogIn/>}/>
-            <Route path="/log_up" component={()=><LogUp/>}/>
-            <Route path="/profile" component={()=><Profile/>}/>
-            <Route path="/password_recovery" component={()=><PasswordRecovery/>}/>
-            <Route path="/enter_a_new_password" component={()=><EnterANewPassword/>}/>
-            <Route path="/test" component={()=><Test/>}/>
-            <Route path="/error404" component={()=><ErrorPage/>}/>
+            <Switch>
+                <Route path="/log_in" component={()=><LogIn/>}/>
+                <Route path="/log_up" component={() => <LogUp/>}/>
+                <Route path="/profile" component={() => <Profile/>}/>
+                <Route path="/password_recovery" component={() => <PasswordRecovery/>}/>
+                <Route path="/enter_a_new_password" component={() => <EnterANewPassword/>}/>
+                <Route path="/test" component={() => <Test/>}/>
+                <Route path="/error404" component={() => <ErrorPage/>}/>
+            </Switch>
         </div>
     );
 }
