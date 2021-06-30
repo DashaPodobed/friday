@@ -80,13 +80,12 @@ export const Header = () => {
                                 </MenuItem>
                                 <MenuItem>
                                     <span className={style.item}>
-                                        <NavLink to="/password_recovery" activeClassName={style.activeLink}>Password
-                                            Recovery</NavLink>
+                                        <NavLink to="/forgot" activeClassName={style.activeLink}>Forgot</NavLink>
                                     </span>
                                 </MenuItem>
                                 <MenuItem>
                                     <span className={style.item}>
-                                        <NavLink to="/enter_a_new_password" activeClassName={style.activeLink}>Enter
+                                        <NavLink to="/set_new_password/:token" activeClassName={style.activeLink}>Set
                                             a
                                             new
                                             password</NavLink>
