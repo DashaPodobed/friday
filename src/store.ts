@@ -3,8 +3,9 @@ import thunkMiddleware from 'redux-thunk'
 import {ProfileReducer} from "./reducers/r3-ProfileReducer";
 import {LogInReducer} from "./reducers/r2-LoginReducer";
 import {LogUpReducer} from "./reducers/r1-LogupReducer";
-import {EnterANewPasswordReducer} from "./reducers/r4-EnterANewPassword";
+import {SetPassReducer} from "./reducers/r4-SetPassReducer";
 import {ErrorPageReducer} from "./reducers/r5-ErrorPage";
+import {ForgotReducer} from "./reducers/r7-ForgotReducer";
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
@@ -12,8 +13,9 @@ const rootReducer = combineReducers({
     profile: ProfileReducer,
     login: LogInReducer,
     logup: LogUpReducer,
-    newPassword: EnterANewPasswordReducer,
-    errorPage: ErrorPageReducer
+    setPass: SetPassReducer,
+    errorPage: ErrorPageReducer,
+    forgot: ForgotReducer
 })
 // непосредственно создаём store
 export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
