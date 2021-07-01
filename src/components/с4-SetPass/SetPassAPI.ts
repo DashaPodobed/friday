@@ -6,8 +6,8 @@ const instance = axios.create({
 })
 
 export const setPassAPI = {
-    setPass(token: string, password: string) {
-        return instance.post<ResponseDataType>("auth/set-new-password", {token, password})
+    setPass(resetPasswordToken: string, password: string) {
+        return instance.post<ResponseDataType>("auth/set-new-password", {resetPasswordToken, password})
     }
 }
 
