@@ -1,4 +1,4 @@
-import {forgotAPI} from "../components/c5-Forgot/ForgorAPI";
+import {forgotAPI} from "../api/ForgorAPI";
 import {Dispatch} from "redux";
 
 export const InitialState = {

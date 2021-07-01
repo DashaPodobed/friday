@@ -1,7 +1,7 @@
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import React from "react";
 import {useSelector} from "react-redux";
-import {AppRootStateType} from "../../store";
+import {AppRootStateType} from "../../app/store";
 
 
 export const ForgotStatus: React.FC = React.memo(() => {

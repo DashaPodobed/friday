@@ -9,11 +9,11 @@ import {
 } from '@material-ui/core'
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../store";
+import {AppRootStateType} from "../../app/store";
 import {Redirect} from 'react-router-dom';
 import {LoginTC} from "../../reducers/r2-LoginReducer";
 import {Preloader} from "../c8-Preloader/Preloader";
-import {ErrorSnackbar} from "../с6-Error/ErrorPage";
+import {ErrorSnackbar} from "../с6-Error/ErrorSnackbar";
 import {DisabledButton} from "../../common/c4-DisabledButton/DisabledButton";
 
 type FormikErrorType = {

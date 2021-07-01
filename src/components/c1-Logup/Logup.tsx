@@ -3,7 +3,7 @@ import {useFormik} from "formik";
 import {loginTC} from "../../reducers/r1-LogupReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {FormControl, FormGroup, TextField, Button, Grid} from '@material-ui/core'
-import {AppRootStateType} from "../../store";
+import {AppRootStateType} from "../../app/store";
 import {Redirect} from "react-router-dom";
 
 type FormikErrorType = {

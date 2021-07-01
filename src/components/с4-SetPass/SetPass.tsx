@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../store";
+import {AppRootStateType} from "../../app/store";
 import {setPassTC} from "../../reducers/r4-SetPassReducer";
 import {Redirect, useParams} from "react-router-dom";
 import FormControl from "@material-ui/core/FormControl/FormControl";

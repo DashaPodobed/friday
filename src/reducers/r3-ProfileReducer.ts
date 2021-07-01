@@ -1,6 +1,6 @@
 import {Dispatch, Reducer} from 'redux'
 
-import {authAPI, ProfileState, ResponseType} from "../auth/auth";
+import {authAPI, ProfileState, ResponseType} from "../api/LoginAPI";
 import {setLoginStatusAC} from "./r2-LoginReducer";
 
 const initialState: ProfileState = {}

@@ -1,9 +1,9 @@
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../store";
+import {AppRootStateType} from "../../app/store";
 import {LogoutTC} from "../../reducers/r2-LoginReducer";
 import {Redirect} from "react-router-dom";
-import {ProfileState} from "../../auth/auth";
+import {ProfileState} from "../../api/LoginAPI";
 import {setUserProfileTC} from "../../reducers/r3-ProfileReducer";
 import {Preloader} from "../c8-Preloader/Preloader";
 import {DisabledButton} from "../../common/c4-DisabledButton/DisabledButton";

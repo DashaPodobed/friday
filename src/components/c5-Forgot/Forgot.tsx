@@ -1,7 +1,7 @@
 import {NavLink} from "react-router-dom";
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../store";
+import {AppRootStateType} from "../../app/store";
 import {forgotTC} from "../../reducers/r7-ForgotReducer";
 import FormControl from "@material-ui/core/FormControl/FormControl";
 import TextField from "@material-ui/core/TextField/TextField";

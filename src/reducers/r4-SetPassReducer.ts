@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {setPassAPI} from "../components/с4-SetPass/SetPassAPI";
+import {setPassAPI} from "../api/SetPassAPI";
 
 export const InitialState = {
     loading: false,

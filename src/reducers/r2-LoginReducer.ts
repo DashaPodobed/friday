@@ -1,7 +1,7 @@
 import {Dispatch} from "redux";
-import {authAPI, loginParamsType} from "../auth/auth";
+import {authAPI, loginParamsType} from "../api/LoginAPI";
 import {setPreloaderStatusAC} from "./r8-PreloaderReducer";
-import {setErrorMessageAC} from "./c6-ErrorReducer";
+import {setErrorMessageAC} from "./r6-ErrorReducer";
 
 const InitialState: InitialStateType = {
     isLoggedIn: false,
