@@ -7,6 +7,7 @@ import {Profile} from "../components/c3-Profile/Profile";
 import {Forgot} from "../components/c5-Forgot/Forgot";
 import {SetPass} from "../components/с4-SetPass/SetPass";
 import {Header} from "../components/c9-Header/Header";
+import {Pagination} from "../features/pagination/Pagination";
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
                 <Route path="/profile" render={() => <Profile/>}/>
                 <Route path="/forgot" render={() => <Forgot/>}/>
                 <Route path="/set_new_password/:token" render={() => <SetPass/>}/>
+                <Route path="/pagination" render={() => <Pagination/>}/>
             </Switch>
         </div>
     );

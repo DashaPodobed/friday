@@ -2,7 +2,7 @@ import React from "react";
 import Grid from "@material-ui/core/Grid/Grid";
 import {Paper} from "@material-ui/core";
 // import mailImg from "../../../assets/images.png";
-import mailImg from "../../../assets/images.png"
+import mailImg from "../../../assets/images/images.png"
 import style from "./CheckPage.module.css";
 
 export const CheckPage: React.FC = () => {

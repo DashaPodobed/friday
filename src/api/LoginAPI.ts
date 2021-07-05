@@ -1,9 +1,4 @@
-import axios from "axios"
-
-const instance = axios.create({
-    baseURL: "https://neko-back.herokuapp.com/2.0/",
-    withCredentials: true
-})
+import {instance} from "./a1-instance";
 
 export const authAPI =  {
     login(data: loginParamsType){
@@ -14,8 +9,7 @@ export const authAPI =  {
     },
     logout(){
         return instance.delete<ResponseType>( 'auth/me')
-    },
-
+    }
 }
 
 export type ResponseType = {
@@ -36,7 +30,6 @@ export type loginParamsType = {
     password: string,
     rememberMe: boolean
 }
-
 export type ProfileState = {
     userData?: ResponseType | undefined
 }
