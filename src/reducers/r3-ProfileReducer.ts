@@ -1,34 +1,24 @@
-import {Dispatch, Reducer} from 'redux'
+import { ResponseType} from "../api/LoginAPI";
 
-import {authAPI, ProfileState, ResponseType} from "../api/LoginAPI";
-import {setLoginStatusAC} from "./r2-LoginReducer";
+const initialState = {
+    profile: {} as ResponseType
+}
+type InitialStateType = typeof initialState
 
-const initialState: ProfileState = {}
-
-export const ProfileReducer: Reducer<ProfileState, ActionType> = (state, action) => {
-    if (!state) return initialState
+export const ProfileReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
-        case "SET-USER-PROFILE":
-            return {...state, userData: action.payload}
+        case "PROFILE/SET-USER-PROFILE":
+            return {...state, profile: action.profile}
         default:
             return state
     }
 }
 
 export const setUserProfileAC = (profile: ResponseType) => {
-    return {type: "SET-USER-PROFILE", payload: profile}
+    return {type: "PROFILE/SET-USER-PROFILE", profile} as const
 }
 
 type setUserProfileAT = ReturnType<typeof setUserProfileAC>
 
 type ActionType = setUserProfileAT
 
-export const setUserProfileTC = () =>
-    (dispatch: Dispatch) => {
-        dispatch(setLoginStatusAC('loading'))
-        authAPI.me()
-            .then(res => {
-                dispatch(setUserProfileAC(res.data))
-                dispatch(setLoginStatusAC('succeeded'))
-            })
-    }
