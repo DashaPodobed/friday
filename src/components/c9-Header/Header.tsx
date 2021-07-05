@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import {NavLink} from "react-router-dom";
 import style from "./AppBar.module.css"
-import { Menu, MenuItem} from "@material-ui/core";
+import {Menu, MenuItem} from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -67,10 +67,13 @@ export const Header = () => {
                         >
                             <nav className={style.nav}>
                                 <MenuItem>
+                                    <span className={style.item}>
+                                    <NavLink to="/log_up" activeClassName={style.activeLink}>Log Up</NavLink>
+                                        </span>
                                 </MenuItem>
                                 <MenuItem>
                                     <span className={style.item}>
-                                    <NavLink to="/log_up" activeClassName={style.activeLink}>Log Up</NavLink>
+                                    <NavLink to="/log_in" activeClassName={style.activeLink}>Log In</NavLink>
                                         </span>
                                 </MenuItem>
                                 <MenuItem>
@@ -97,30 +100,24 @@ export const Header = () => {
                                                  activeClassName={style.activeLink}>Error404</NavLink>
                                     </span>
                                 </MenuItem>
+                                <MenuItem>
+                                    <span className={style.item}>
+                                        <NavLink to="/pack"
+                                                 activeClassName={style.activeLink}>Pack</NavLink>
+                                    </span>
+                                </MenuItem>
+                                <MenuItem>
+                                    <span className={style.item}>
+                                        <NavLink to="/cards"
+                                                 activeClassName={style.activeLink}>Cards</NavLink>
+                                    </span>
+                                </MenuItem>
                             </nav>
                         </Menu>
                     </div>
                     <Typography variant="h6" className={classes.title}>
                         Project
                     </Typography>
-                    {/*<nav className={style.nav}>*/}
-                    {/*    <span className={style.item}>*/}
-                    {/*        <NavLink to="/log_up" activeClassName={style.activeLink}>register</NavLink>*/}
-                    {/*    </span>*/}
-                    {/*    <span className={style.item}>*/}
-                    {/*        <NavLink to="/log_in" activeClassName={style.activeLink}>login</NavLink>*/}
-                    {/*    </span>*/}
-                    {/*    <span className={style.item}>*/}
-                    {/*        <NavLink to="/profile" activeClassName={style.activeLink}>profile</NavLink>*/}
-                    {/*    </span>*/}
-                    {/*    <span className={style.item}>*/}
-                    {/*        <NavLink to="/password_recovery" activeClassName={style.activeLink}>forgot</NavLink>*/}
-                    {/*    </span>*/}
-                    {/*    <span className={style.item}>*/}
-                    {/*        <NavLink to="/enter_a_new_password" activeClassName={style.activeLink}>setPass</NavLink>*/}
-                    {/*    </span>*/}
-                    {/*</nav>*/}
-                    {/*<Button color="inherit">Login</Button>*/}
                 </Toolbar>
             </AppBar>
         </div>

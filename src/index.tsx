@@ -8,13 +8,13 @@ import {Provider} from "react-redux";
 import {store} from "./app/store";
 
 ReactDOM.render(
-    <React.StrictMode>
+    // <React.StrictMode>
         <HashRouter>
             <Provider store={store}>
                 <App/>
             </Provider>
-        </HashRouter>
-    </React.StrictMode>,
+        </HashRouter>,
+    // </React.StrictMode>,
     document.getElementById('root')
 );
 
