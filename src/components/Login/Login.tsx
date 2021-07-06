@@ -9,14 +9,11 @@ import {
 } from '@material-ui/core'
 import {useFormik} from "formik";
 import {useHistory} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../app/store";
-import {Redirect} from 'react-router-dom';
+import {useDispatch} from "react-redux";
 import {LoginTC} from "../../reducers/r2-LoginReducer";
-import {Preloader} from "../c8-Preloader/Preloader";
-import {ErrorSnackbar} from "../с6-Error/ErrorSnackbar";
+import {Preloader} from "../Preloader/Preloader";
+import {ErrorSnackbar} from "../Error/ErrorSnackbar";
 import {DisabledButton} from "../../common/c4-DisabledButton/DisabledButton";
-import {ResponseType} from "../../api/LoginAPI";
 
 type FormikErrorType = {
     email?: string
@@ -27,9 +24,6 @@ type FormikErrorType = {
 export const LogIn = React.memo(function () {
     const history = useHistory()
     const dispatch = useDispatch()
-    const isInitialized = useSelector<AppRootStateType, boolean>(state => state.login.isInitialized)
-    const profileId = useSelector<AppRootStateType, string>(state => state.login.profile._id)
-
 
     const formik = useFormik({
         initialValues: {
@@ -53,14 +47,10 @@ export const LogIn = React.memo(function () {
         },
         onSubmit: values => {
             dispatch(LoginTC(values))
-            history.push('/profile')
+            history.push('/pack')
             formik.resetForm()
         },
     })
-
-    if (profileId) {
-        return <Redirect to={'/profile'}/>
-    }
 
     return <div>
         <Preloader/>

@@ -8,6 +8,7 @@ import {PreloaderReducer} from "../reducers/r8-PreloaderReducer";
 import {ErrorReducer} from "../reducers/r6-ErrorReducer";
 import {PacksReducer} from "../reducers/r9-PacksReducer";
 import {ProfileReducer} from "../reducers/r3-ProfileReducer";
+import {CardsReducer} from "../reducers/r10-CardsReducer";
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
     forgot: ForgotReducer,
     error: ErrorReducer,
     status: PreloaderReducer,
-    packs: PacksReducer
+    packs: PacksReducer,
+    cards: CardsReducer
 })
 // непосредственно создаём store
 export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));

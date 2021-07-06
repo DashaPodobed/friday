@@ -1,26 +1,19 @@
 import React, {useEffect} from 'react';
-import {Redirect, Route, Switch} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import './App.css';
-import {LogIn} from "../components/c2-Login/Login";
-import {LogUp} from "../components/c1-Logup/Logup";
-import {Profile} from "../components/c3-Profile/Profile";
-import {Forgot} from "../components/c5-Forgot/Forgot";
-import {SetPass} from "../components/с4-SetPass/SetPass";
-import {Header} from "../components/c9-Header/Header";
+import {LogIn} from "../components/Login/Login";
+import {LogUp} from "../components/Logup/Logup";
+import {Profile} from "../components/Profile/Profile";
+import {Forgot} from "../components/Forgot/Forgot";
+import {SetPass} from "../components/SetPass/SetPass";
+import {Header} from "../components/Header/Header";
 import PacksList from "../components/Pack/Pack";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./store";
-import {ResponseType} from "../api/LoginAPI";
+import {useDispatch} from "react-redux";
 import {setUserProfileTC} from "../reducers/r2-LoginReducer";
 import Cards from "../components/Cards/Cards";
 
 function App() {
     const dispatch = useDispatch()
-    const profile = useSelector<AppRootStateType, ResponseType>(state => state.login.profile)
-    const isInitialized = useSelector<AppRootStateType, boolean>(state => state.login.isInitialized)
-
-    console.log(profile)
-    console.log(isInitialized)
 
     useEffect(()=>{
         dispatch(setUserProfileTC())
@@ -38,7 +31,7 @@ function App() {
                 <Route path="/pack" render={() => <PacksList/>}/>
                 <Route path="/cards" render={() => <Cards/>}/>
                 <Route path="/set_new_password/:token" render={() => <SetPass/>}/>
-                <Route path="/*" render={() => <LogIn/>}/>
+                {/*<Route path="/*" render={() => <LogIn/>}/>*/}
             </Switch>
         </div>
     );

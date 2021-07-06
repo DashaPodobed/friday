@@ -1,24 +1,18 @@
-import { ResponseType} from "../api/LoginAPI";
-
-const initialState = {
-    profile: {} as ResponseType
-}
+const initialState = {}
 type InitialStateType = typeof initialState
 
 export const ProfileReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
-        case "PROFILE/SET-USER-PROFILE":
-            return {...state, profile: action.profile}
         default:
             return state
     }
 }
 
-export const setUserProfileAC = (profile: ResponseType) => {
-    return {type: "PROFILE/SET-USER-PROFILE", profile} as const
+export const AC = () => {
+    return {type: ""} as const
 }
 
-type setUserProfileAT = ReturnType<typeof setUserProfileAC>
+type AT = ReturnType<typeof AC>
 
-type ActionType = setUserProfileAT
+type ActionType = AT
 

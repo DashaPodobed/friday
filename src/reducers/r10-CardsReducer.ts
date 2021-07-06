@@ -2,32 +2,29 @@ import {Dispatch} from "redux";
 import {setErrorMessageAC} from "./r6-ErrorReducer";
 import {CardsAPI, ResponseCardType} from "../api/CardsAPI";
 
-const InitialState: Array<ResponseCardType> = []
-
-export const PacksReducer = (state: Array<ResponseCardType> = InitialState, action: ActionType): Array<ResponseCardType> => {
+const InitialState: any = []
+// Array<ResponseCardType>
+export const CardsReducer = (state: Array<ResponseCardType> = InitialState, action: ActionType): Array<ResponseCardType> => {
     switch (action.type) {
-        case "PACKS/SET-PACKS-LIST":
+        case "CARDS/SET-CARDS":
             return action.data
-        case "PACKS/CREATE-NEW-CARD":
-            return {...state}
         // return state.map(st => st._id === action.id ? {...st, name: action.name} : st)
         default:
             return state
     }
 }
 
-export const setPacksListAC = (data: Array<ResponseCardType>) => ({type: "PACKS/SET-PACKS-LIST", data} as const)
-export const createNewCardsAC = () => ({type: "PACKS/CREATE-NEW-CARD"} as const)
+export const setCardsAC = (data: any) => ({type: "CARDS/SET-CARDS", data} as const)
 
-export type setPacksListAT = ReturnType<typeof setPacksListAC>
-export type createNewCardsAT = ReturnType<typeof createNewCardsAC>
+export type setCardsAT = ReturnType<typeof setCardsAC>
 
-type ActionType = setPacksListAT | createNewCardsAT
+type ActionType = setCardsAT
 
 export const setCardsTC = (packId: string) =>
     (dispatch: Dispatch) => {
         CardsAPI.getCards(packId)
             .then(res => {
+                dispatch(setCardsAC(res.data.cards))
                 console.log(res.data.cards)
             })
             .catch((e) => {
@@ -38,24 +35,24 @@ export const setCardsTC = (packId: string) =>
             })
     }
 
-// export const createNewCardPackTC = (userId: string) =>
-//     (dispatch: any) => {
-//         PacksAPI.createCardPack()
-//             .then(res => {
-//                 dispatch(setPacksListTC(userId))
-//             })
-//     }
-// export const deleteCardPackTC = (id: string) =>
-//     (dispatch: any) => {
-//         PacksAPI.deleteCardPack(id)
-//             .then(res => {
-//                 dispatch(setPacksListTC(id))
-//             })
-//     }
-// export const updateCardPackTC = (id: string) =>
-//     (dispatch: any) => {
-//         PacksAPI.updateCardPack(id)
-//             .then(res => {
-//                 dispatch(setPacksListTC(id))
-//             })
-//     }
+export const createNewCardTC = (cardsPack_id: string) =>
+    (dispatch: any) => {
+        CardsAPI.createNewCard(cardsPack_id)
+            .then(res => {
+                dispatch(setCardsTC(cardsPack_id))
+            })
+    }
+export const deleteCardTC = (id: string) =>
+    (dispatch: any) => {
+        CardsAPI.deleteCard(id)
+            .then(res => {
+                dispatch(setCardsTC(id))
+            })
+    }
+export const updateCardTC = (id: string) =>
+    (dispatch: any) => {
+        CardsAPI.updateCard(id)
+            .then(res => {
+                dispatch(setCardsTC(id))
+            })
+    }

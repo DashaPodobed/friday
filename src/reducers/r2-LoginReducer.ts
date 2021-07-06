@@ -90,5 +90,4 @@ export const setUserProfileTC = () =>
     async (dispatch: Dispatch) => {
         const res = await authAPI.me()
         dispatch(setUserProfileAC(res.data))
-        // dispatch(setIsInitializedAC(true))
     }
