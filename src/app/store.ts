@@ -8,6 +8,7 @@ import {PreloaderReducer} from "../reducers/r8-PreloaderReducer";
 import {ErrorReducer} from "../reducers/r6-ErrorReducer";
 import {PacksReducer} from "../reducers/r9-PacksReducer";
 import {ProfileReducer} from "../reducers/r3-ProfileReducer";
+import {CardsReducer} from "../reducers/r10-CardsReducer";
 
 const rootReducer = combineReducers({
     profile: ProfileReducer,
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
     forgot: ForgotReducer,
     error: ErrorReducer,
     status: PreloaderReducer,
-    packs: PacksReducer
+    packs: PacksReducer,
+    cards: CardsReducer
 })
 
 export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));

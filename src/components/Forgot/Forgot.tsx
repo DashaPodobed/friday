@@ -11,7 +11,7 @@ import Grid from "@material-ui/core/Grid/Grid";
 import {useFormik} from "formik";
 import {Paper} from "@material-ui/core";
 import style from "./Forgot.module.css";
-import {CheckPage} from "../с4-SetPass/CheckPage/CheckPage";
+import {CheckPage} from "../SetPass/CheckPage/CheckPage";
 import {ForgotStatus} from "./ForgotStatus";
 
 type FormikErrorType = {

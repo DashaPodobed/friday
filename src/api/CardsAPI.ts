@@ -13,50 +13,49 @@ export const CardsAPI = {
             {params: {cardsPack_id}}
         )
         return response
+    },
+    async createNewCard(cardsPack_id: string) {
+        const response = await instance.post(
+            'cards/card',
+            {card: cardsPack_id}
+        )
+        return response
+    },
+    async deleteCard(id: string) {
+        const response = await instance.delete(
+            'cards/card',
+            {params: {id}}
+        )
+        return response
+    },
+    async updateCard(id: string) {
+        const response = await instance.put(
+            'cards/card',
+            {body: {id}}
+        )
+        return response
     }
-
-//     async createCardPack() {
-//         const response = await instance.post(
-//             'cards/pack',
-//             {cardsPack: {name: "new pack 2.0"}}
-//         )
-//         return response
-//     },
-//     async deleteCardPack(id: string) {
-//         const response = await instance.delete(
-//             'cards/pack',
-//             {params: {id}}
-//         )
-//         return response
-//     },
-//     async updateCardPack(id: string) {
-//         const response = await instance.put(
-//             'cards/pack',
-//             {cardsPack: {id}}
-//         )
-//         return response
-//     }
 }
 
 export type ResponseCardType = {
-    cards: [{
-        answer: string
-        question: string
-        cardsPack_id: string
-        grade: number
-        rating: number
-        shots: number
-        type: string
-        user_id: string
-        created: string
-        updated: string
-        __v: number
-        _id: string
-    }],
-    cardsTotalCount: number
-    maxGrade: number
-    minGrade: number
-    page: number
-    pageCount: number
-    packUserId: string
+    answer: string
+    question: string
+    cardsPack_id: string
+    grade: number
+    rating: number
+    shots: number
+    type: string
+    user_id: string
+    created: string
+    updated: string
+    __v: number
+    _id: string
+    comment: string
+    more_id: string
 }
+// cardsTotalCount: number
+// maxGrade: number
+// minGrade: number
+// page: number
+// pageCount: number
+// packUserId: string

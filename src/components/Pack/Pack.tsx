@@ -9,12 +9,12 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import {createNewCardPackTC, deleteCardPackTC, setPacksListTC, updateCardPackTC} from "../../reducers/r9-PacksReducer";
 import {useDispatch, useSelector} from "react-redux";
-import {ErrorSnackbar} from "../с6-Error/ErrorSnackbar";
+import {ErrorSnackbar} from "../Error/ErrorSnackbar";
 import {AppRootStateType} from "../../app/store";
 import {ResponseType} from "../../api/LoginAPI";
 import {ResponsePackType} from "../../api/PacksAPI";
 import {setCardsTC} from "../../reducers/r10-CardsReducer";
-import {Redirect} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles({
     table: {
@@ -25,6 +25,7 @@ const useStyles = makeStyles({
 export default function DenseTable() {
 
     const dispatch = useDispatch()
+    const history = useHistory()
     const profile = useSelector<AppRootStateType, ResponseType>(state => state.login.profile)
     const packs = useSelector<AppRootStateType, Array<ResponsePackType>>(state => state.packs)
 
@@ -43,9 +44,9 @@ export default function DenseTable() {
     const addNewCardPack = () => {
         dispatch(createNewCardPackTC(profile._id))
     }
-    if (!profile._id) {
-        return <Redirect to={'/log_in'}/>
-    }
+    // if (!profile._id) {
+    //     return <Redirect to={'/log_in'}/>
+    // }
 
     return (
         <>
@@ -73,7 +74,9 @@ export default function DenseTable() {
                                 }
                                 const getCards = () => {
                                     dispatch(setCardsTC(pack._id))
+                                    history.push('/cards')
                                 }
+
                                 return (
                                     <TableRow key={pack._id}>
                                         <TableCell align="left">{pack.name}</TableCell>
