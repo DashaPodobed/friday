@@ -1,24 +1,19 @@
-import axios from 'axios'
-
-const instance = axios.create({
-    baseURL: "https://neko-back.herokuapp.com/2.0/",
-    withCredentials: true
-})
-
+import {instance} from "./a1-instance";
 
 export const PacksAPI = {
-    async getPacks(id: string) {
+    async getPacks(id?: string | null, pageCount?: number | null, page?: number | null,
+                   packName?: string | null, min?: number | null, max?: number | null, sortPacks?: string | null) {
         const response = await instance.get(
             `cards/pack`,
             {
                 params: {
                     user_id: id,
-                    pageCount: 6,
-                    page: 1,
-                    // packName: "friday"
-                    min: 1,
-                    max: 10,
-                    // sortPacks: 0 + "updated"
+                    pageCount,
+                    page,
+                    packName,
+                    min,
+                    max,
+                    sortPacks
                 }
             }
         )
@@ -27,7 +22,7 @@ export const PacksAPI = {
     async createCardPack(){
         const response = await instance.post(
             'cards/pack',
-            {cardsPack: {name: "new pack 2.0"}}
+            {cardsPack: {name: "new pack 3.0"}}
         )
         return response
     },
@@ -41,7 +36,7 @@ export const PacksAPI = {
     async updateCardPack(id: string){
         const response = await instance.put(
             'cards/pack',
-            {cardsPack: {id}}
+            {cardsPack: {_id: id}}
         )
         return response
     }

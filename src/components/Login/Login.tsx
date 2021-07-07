@@ -47,7 +47,7 @@ export const LogIn = React.memo(function () {
         },
         onSubmit: values => {
             dispatch(LoginTC(values))
-            history.push('/pack')
+            history.push('/profile')
             formik.resetForm()
         },
     })

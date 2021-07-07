@@ -17,7 +17,7 @@ function App() {
 
     useEffect(()=>{
         dispatch(setUserProfileTC())
-    },[])
+    },[dispatch])
 
 
     return (
