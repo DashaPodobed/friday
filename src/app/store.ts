@@ -10,8 +10,6 @@ import {PacksReducer} from "../reducers/r9-PacksReducer";
 import {ProfileReducer} from "../reducers/r3-ProfileReducer";
 import {CardsReducer} from "../reducers/r10-CardsReducer";
 
-// объединяя reducer-ы с помощью combineReducers,
-// мы задаём структуру нашего единственного объекта-состояния
 const rootReducer = combineReducers({
     profile: ProfileReducer,
     login: LoginReducer,
@@ -23,11 +21,10 @@ const rootReducer = combineReducers({
     packs: PacksReducer,
     cards: CardsReducer
 })
-// непосредственно создаём store
+
 export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
-// определить автоматически тип всего объекта состояния
+
 export type AppRootStateType = ReturnType<typeof rootReducer>
 
-// а это, чтобы можно было в консоли браузера обращаться к store в любой момент
 // @ts-ignore
 window.store = store;
