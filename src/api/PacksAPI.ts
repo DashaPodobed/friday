@@ -27,7 +27,7 @@ export const PacksAPI = {
     async createCardPack(){
         const response = await instance.post(
             'cards/pack',
-            {cardsPack: {name: "new pack 2.0"}}
+            {CardsPack: {name: "new pack 2.0"}}
         )
         return response
     },

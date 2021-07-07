@@ -17,7 +17,7 @@ export const CardsAPI = {
     async createNewCard(cardsPack_id: string) {
         const response = await instance.post(
             'cards/card',
-            {card: cardsPack_id}
+            {card: {cardsPack_id: cardsPack_id}}
         )
         return response
     },
@@ -31,7 +31,7 @@ export const CardsAPI = {
     async updateCard(id: string) {
         const response = await instance.put(
             'cards/card',
-            {body: {id}}
+            {card: {_id: id}}
         )
         return response
     }
