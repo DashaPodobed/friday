@@ -8,15 +8,20 @@ import {Forgot} from "../components/Forgot/Forgot";
 import {SetPass} from "../components/SetPass/SetPass";
 import {Header} from "../components/Header/Header";
 import PacksList from "../components/Pack/Pack";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {setUserProfileTC} from "../reducers/r2-LoginReducer";
 import Cards from "../components/Cards/Cards";
+import {AppRootStateType} from "./store";
+import {ResponseType} from "../api/LoginAPI";
 
 function App() {
     const dispatch = useDispatch()
+    const login = useSelector<AppRootStateType, ResponseType>(state => state.login.profile)
 
     useEffect(()=>{
-        dispatch(setUserProfileTC())
+        if (!login){
+            dispatch(setUserProfileTC())
+        }
     },[dispatch])
 
 
