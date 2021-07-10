@@ -42,17 +42,17 @@ export const createNewCardTC = (cardsPack_id: string) =>
                 dispatch(setCardsTC(cardsPack_id))
             })
     }
-export const deleteCardTC = (id: string) =>
+export const deleteCardTC = (id: string, packId: string) =>
     (dispatch: any) => {
         CardsAPI.deleteCard(id)
             .then(res => {
-                dispatch(setCardsTC())
+                dispatch(setCardsTC(packId))
             })
     }
-export const updateCardTC = (id: string) =>
+export const updateCardTC = (id: string, packId: string) =>
     (dispatch: any) => {
         CardsAPI.updateCard(id)
             .then(res => {
-                dispatch(setCardsTC(id))
+                dispatch(setCardsTC(packId))
             })
     }

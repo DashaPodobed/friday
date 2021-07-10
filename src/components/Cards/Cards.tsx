@@ -27,7 +27,9 @@ export default function Cards() {
     useEffect(() => {
         dispatch(setCardsTC(cardsPackId))
     }, [])
-
+    const createNewCard = () => {
+        dispatch(createNewCardTC(cardsPackId))
+    }
     const classes = useStyles();
 
     return (
@@ -36,24 +38,23 @@ export default function Cards() {
             <div style={{display: "flex", justifyContent: "center"}}>
                 <TableContainer component={Paper} style={{width: "60%"}}>
                     <Table className={classes.table} size="small" aria-label="a dense table">
+
                         <TableHead>
                             <TableRow>
                                 <TableCell>question</TableCell>
                                 <TableCell align="right">answer</TableCell>
                                 <TableCell align="right">grade</TableCell>
                                 <TableCell align="right">updated</TableCell>
+                                <button onClick={createNewCard}>add new card</button>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {cards.map((card) => {
-                                const createNewCard = () => {
-                                    dispatch(createNewCardTC(card.cardsPack_id))
-                                }
                                 const deleteCard = () => {
-                                    dispatch(deleteCardTC(card._id))
+                                    dispatch(deleteCardTC(card._id, card.cardsPack_id))
                                 }
                                 const updateCard = () => {
-                                    dispatch(updateCardTC(card._id))
+                                    dispatch(updateCardTC(card._id, card.cardsPack_id))
                                 }
                                 return (
                                     <TableRow key={card._id}>
@@ -62,7 +63,6 @@ export default function Cards() {
                                         <TableCell align="right">{card.grade}</TableCell>
                                         <TableCell align="right">{card.updated}</TableCell>
                                         <TableCell align="right">
-                                            <button onClick={createNewCard}>add</button>
                                         </TableCell>
                                         <TableCell align="right">
                                             <button onClick={updateCard}>update

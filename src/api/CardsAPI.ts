@@ -22,10 +22,10 @@ export const CardsAPI = {
         )
         return response
     },
-    async updateCard(id: string) {
+    async updateCard(_id: string) {
         const response = await instance.put(
             'cards/card',
-            {card: {_id: id}}
+            {card: {_id: _id}}
         )
         return response
     }
