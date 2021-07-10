@@ -19,7 +19,6 @@ import {ErrorSnackbar} from "../Error/ErrorSnackbar";
 import {AppRootStateType} from "../../app/store";
 import {ResponseType} from "../../api/LoginAPI";
 import {ResponsePackType} from "../../api/PacksAPI";
-import {setCardsTC} from "../../reducers/r10-CardsReducer";
 import {useHistory} from "react-router-dom";
 import {Paginator} from "../../features/pagination/Paginator";
 import {Search} from "../../features/search/Search";
@@ -41,7 +40,7 @@ export default function DenseTable() {
     const [isPrivatePacks, setIsPrivatePacks] = useState<boolean>(false)
 
     useEffect(() => {
-            dispatch(setPacksListTC())
+        dispatch(setPacksListTC())
     }, [])
 
 
@@ -90,16 +89,14 @@ export default function DenseTable() {
                         </TableHead>
                         <TableBody>
                             {packs.map((pack) => {
-                                // debugger
                                 const deleteCardPack = () => {
-                                    dispatch(deleteCardPackTC(pack._id))
+                                    dispatch(deleteCardPackTC(pack._id, profile._id))
                                 }
                                 const updateCardPack = () => {
                                     dispatch(updateCardPackTC(pack._id))
                                 }
                                 const getCards = () => {
-                                    dispatch(setCardsTC(pack._id))
-                                    history.push('/cards')
+                                    history.push(`/cards/${pack._id}`)
                                 }
 
                                 return (

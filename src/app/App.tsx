@@ -12,14 +12,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {setUserProfileTC} from "../reducers/r2-LoginReducer";
 import Cards from "../components/Cards/Cards";
 import {AppRootStateType} from "./store";
-import {ResponseType} from "../api/LoginAPI";
 
 function App() {
     const dispatch = useDispatch()
-    const login = useSelector<AppRootStateType, ResponseType>(state => state.login.profile)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
 
     useEffect(()=>{
-        if (!login){
+        if (!isLoggedIn){
             dispatch(setUserProfileTC())
         }
     },[dispatch])
@@ -34,7 +33,7 @@ function App() {
                 <Route path="/profile" render={() => <Profile/>}/>
                 <Route path="/forgot" render={() => <Forgot/>}/>
                 <Route path="/pack" render={() => <PacksList/>}/>
-                <Route path="/cards" render={() => <Cards/>}/>
+                <Route path="/cards/:cardsPackId" render={() => <Cards/>}/>
                 <Route path="/set_new_password/:token" render={() => <SetPass/>}/>
                 {/*<Route path="/*" render={() => <LogIn/>}/>*/}
             </Switch>

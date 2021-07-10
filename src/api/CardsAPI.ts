@@ -1,7 +1,7 @@
 import {instance} from "./a1-instance";
 
 export const CardsAPI = {
-    async getCards(cardsPack_id: string) {
+    async getCards(cardsPack_id?: string) {
         const response = await instance.get(
             'cards/card',
             {params: {cardsPack_id}}

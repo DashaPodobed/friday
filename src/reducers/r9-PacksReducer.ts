@@ -95,11 +95,11 @@ export const createNewCardPackTC = (userId: string) =>
                 dispatch(setPacksListTC(userId))
             })
     }
-export const deleteCardPackTC = (id: string) =>
+export const deleteCardPackTC = (id: string, userId: string) =>
     (dispatch: any) => {
         PacksAPI.deleteCardPack(id)
             .then(res => {
-                dispatch(setPacksListTC(id))
+                dispatch(setPacksListTC(userId))
             })
     }
 export const updateCardPackTC = (id: string) =>
