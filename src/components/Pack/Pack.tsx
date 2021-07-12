@@ -11,7 +11,6 @@ import {
     createNewCardPackTC,
     deleteCardPackTC,
     setPacksListTC,
-    // setPaginationDataTC,
     updateCardPackTC
 } from "../../reducers/r9-PacksReducer";
 import {useDispatch, useSelector} from "react-redux";

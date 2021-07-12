@@ -5,9 +5,9 @@ import {setErrorMessageAC} from "./r6-ErrorReducer";
 const InitialState = {
     cardPacks: [] as Array<ResponsePackType>,
     cardPacksTotalCount: 2,
-    maxCardsCount: 0 as number | undefined ,
-    minCardsCount: 1000 as number | undefined ,
-    page: 1 as number | undefined ,
+    maxCardsCount: 0 as number | undefined,
+    minCardsCount: 1000 as number | undefined,
+    page: 1 as number | undefined,
     pageCount: 4 as number | undefined
 }
 
@@ -32,30 +32,26 @@ export const PacksReducer = (state: InitialStateType = InitialState, action: Act
     }
 }
 
-export const setPacksListAC = (data: InitialStateType, userId?: string , pageCount?: number , page?: number ,
-                               packName?: string , minCardsCount?: number , maxCardsCount?: number ,
-                               sortPacks?: string ) => ({type: "PACKS/SET-PACKS-LIST", data, userId, pageCount,
-                               page, packName, minCardsCount, maxCardsCount, sortPacks} as const)
+export const setPacksListAC = (data: InitialStateType, userId?: string, pageCount?: number, page?: number,
+                               packName?: string, minCardsCount?: number, maxCardsCount?: number,
+                               sortPacks?: string) => ({
+    type: "PACKS/SET-PACKS-LIST", data, userId, pageCount,
+    page, packName, minCardsCount, maxCardsCount, sortPacks
+} as const)
 export const createNewCardsAC = () => ({type: "PACKS/CREATE-NEW-CARD"} as const)
-// export const setPaginationDataAC = (page: number | undefined, pageCount: number | undefined, minCardsCount: number | undefined, maxCardsCount: number | undefined, data: Array<ResponsePackType>) => (
-//     {type: "PACKS/SET-PAGINATION-DATA", page, pageCount, minCardsCount, maxCardsCount, data} as const)
-// export const searchNameAC = (packName: string | null, data: Array<ResponsePackType>) => (
-//     {type: "PACKS/SEARCH-NAME", packName, data} as const)
 
 export type SetPacksListAT = ReturnType<typeof setPacksListAC>
 export type CreateNewCardsAT = ReturnType<typeof createNewCardsAC>
-// export type SetPaginationDataAT = ReturnType<typeof setPaginationDataAC>
-// export type SearchNameAT = ReturnType<typeof searchNameAC>
 
 type ActionType = SetPacksListAT | CreateNewCardsAT
 
-export const setPacksListTC = (userId?: string , pageCount?: number , page?: number ,
-                               packName?: string , minCardsCount?: number , maxCardsCount?: number ,
-                               sortPacks?: string ) =>
+export const setPacksListTC = (userId?: string, pageCount?: number, page?: number,
+                               packName?: string, minCardsCount?: number, maxCardsCount?: number,
+                               sortPacks?: string) =>
     (dispatch: Dispatch) => {
         PacksAPI.getPacks(userId, pageCount, page, packName, minCardsCount, maxCardsCount, sortPacks)
             .then(res => {
-                dispatch(setPacksListAC(res.data, userId, pageCount, page, packName, minCardsCount, maxCardsCount,sortPacks))
+                dispatch(setPacksListAC(res.data, userId, pageCount, page, packName, minCardsCount, maxCardsCount, sortPacks))
             })
             .catch((e) => {
                 const error = e.response
@@ -64,20 +60,6 @@ export const setPacksListTC = (userId?: string , pageCount?: number , page?: num
                 dispatch(setErrorMessageAC(error))
             })
     }
-
-// export const setPaginationDataTC = (pageCount?: number, page?: number, minCardsCount?: number, maxCardsCount?: number, sortPacks?: string) =>
-//     (dispatch: Dispatch) => {
-//         PacksAPI.getPacks(null, pageCount, page, null, minCardsCount, maxCardsCount, sortPacks)
-//             .then(res => {
-//                 dispatch(setPaginationDataAC(page, pageCount, minCardsCount, maxCardsCount, res.data.cardPacks))
-//             })
-//             .catch((e) => {
-//                 const error = e.response
-//                     ? e.response.data.error
-//                     : (e.message + ', more details in the console');
-//                 dispatch(setErrorMessageAC(error))
-//             })
-//     }
 
 export const createNewCardPackTC = (userId: string) =>
     (dispatch: any) => {
