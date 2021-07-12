@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 import s from "./Paginator.module.css";
-import {useDispatch} from "react-redux";
-import {setPaginationDataTC} from "../../reducers/r9-PacksReducer";
+import {useDispatch, useSelector} from "react-redux";
+import {setPacksListTC} from "../../reducers/r9-PacksReducer";
+import {AppRootStateType} from "../../app/store";
 
 type PaginatorPropsType = {
     totalItemsCount: number
@@ -14,6 +15,7 @@ export const Paginator: React.FC<PaginatorPropsType> = (
     {totalItemsCount, pageSize, currentPage, portionSize = 10}
 ) => {
 
+    const {packName, min, max} = useSelector((state: AppRootStateType)=> state.currentData)
     const dispatch = useDispatch()
     const pagesCount = Math.ceil(totalItemsCount / (pageSize ? pageSize : 1))
 
@@ -35,7 +37,7 @@ export const Paginator: React.FC<PaginatorPropsType> = (
     }
 
     const onPageChanged = (page: number) => {
-        dispatch(setPaginationDataTC(pageSize, page))
+        dispatch(setPacksListTC(undefined, pageSize, page, packName, min, max))
     }
 
     return <div className={s.paginator}>

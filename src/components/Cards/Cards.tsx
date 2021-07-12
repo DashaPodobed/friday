@@ -11,7 +11,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../app/store";
 import {ResponseCardType} from "../../api/CardsAPI";
 import {createNewCardTC, deleteCardTC, setCardsTC, updateCardTC} from "../../reducers/r10-CardsReducer";
-import {useParams} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
+import {ErrorSnackbar} from "../Error/ErrorSnackbar";
 
 const useStyles = makeStyles({
     table: {
@@ -21,6 +22,7 @@ const useStyles = makeStyles({
 
 export default function Cards() {
     const dispatch = useDispatch()
+    const history = useHistory()
     const cards = useSelector<AppRootStateType, Array<ResponseCardType>>(state => state.cards)
     const {cardsPackId} = useParams<{ cardsPackId: string }>()
 
@@ -34,8 +36,8 @@ export default function Cards() {
 
     return (
         <>
-            {/*<button onClick={()=>dispatch(setCardsTC())}>setCards</button>*/}
             <div style={{display: "flex", justifyContent: "center"}}>
+                <ErrorSnackbar/>
                 <TableContainer component={Paper} style={{width: "60%"}}>
                     <Table className={classes.table} size="small" aria-label="a dense table">
 

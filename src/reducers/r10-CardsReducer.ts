@@ -1,9 +1,10 @@
 import {Dispatch} from "redux";
 import {setErrorMessageAC} from "./r6-ErrorReducer";
 import {CardsAPI, ResponseCardType} from "../api/CardsAPI";
+import {LearnAPI} from "../api/LearnAPI";
 
-const InitialState: any = []
-// Array<ResponseCardType>
+const InitialState: ResponseCardType[] = []
+
 export const CardsReducer = (state: Array<ResponseCardType> = InitialState, action: ActionType): Array<ResponseCardType> => {
     switch (action.type) {
         case "CARDS/SET-CARDS":
@@ -25,7 +26,6 @@ export const setCardsTC = (packId?: string | undefined) =>
         CardsAPI.getCards(packId)
             .then(res => {
                 dispatch(setCardsAC(res.data.cards))
-                console.log(res.data.cards)
             })
             .catch((e) => {
                 const error = e.response
@@ -55,4 +55,12 @@ export const updateCardTC = (id: string, packId: string) =>
             .then(res => {
                 dispatch(setCardsTC(packId))
             })
+    }
+
+export const sendUpdatedGradeTC = (grade: number, card_id: string, packId: string) =>
+    (dispatch: any) => {
+    LearnAPI.sendUpdatedGrade(grade, card_id)
+        .then(res => {
+            dispatch(setCardsTC(packId))
+        })
     }

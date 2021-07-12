@@ -11,7 +11,7 @@ import {
     createNewCardPackTC,
     deleteCardPackTC,
     setPacksListTC,
-    setPaginationDataTC,
+    // setPaginationDataTC,
     updateCardPackTC
 } from "../../reducers/r9-PacksReducer";
 import {useDispatch, useSelector} from "react-redux";
@@ -23,6 +23,7 @@ import {useHistory} from "react-router-dom";
 import {Paginator} from "../../features/pagination/Paginator";
 import {Search} from "../../features/search/Search";
 import {SortPacks} from "../../features/SortPacks/SortPacks";
+import {setPageCountAC} from "../../reducers/r12-CurrentDataReducer";
 
 const useStyles = makeStyles({
     table: {
@@ -34,6 +35,7 @@ export default function DenseTable() {
 
     const dispatch = useDispatch()
     const history = useHistory()
+    const {packName, min, max, currentPageCount} = useSelector((state: AppRootStateType)=> state.currentData)
     const profile = useSelector<AppRootStateType, ResponseType>(state => state.login.profile)
     const packs = useSelector<AppRootStateType, Array<ResponsePackType>>(state => state.packs.cardPacks)
     const {cardPacksTotalCount, pageCount, page} = useSelector((state: AppRootStateType) => state.packs)
@@ -49,7 +51,7 @@ export default function DenseTable() {
         if (isPrivatePacks) {
             dispatch(setPacksListTC())
         } else {
-            dispatch(setPacksListTC(profile._id))
+            dispatch(setPacksListTC(profile._id, currentPageCount, undefined, packName, min, max))
         }
     }
 
@@ -66,7 +68,8 @@ export default function DenseTable() {
     }
 
     const selectCallback = (value: string) => {
-        dispatch(setPaginationDataTC(+value))
+        dispatch(setPacksListTC(undefined, +value, undefined, packName, min, max))
+        dispatch(setPageCountAC(+value))
     }
 
     return (
@@ -89,6 +92,9 @@ export default function DenseTable() {
                         </TableHead>
                         <TableBody>
                             {packs.map((pack) => {
+                                const getQuestions = () => {
+                                    history.push(`/learn/${pack._id}`)
+                                }
                                 const deleteCardPack = () => {
                                     dispatch(deleteCardPackTC(pack._id, profile._id))
                                 }
@@ -110,6 +116,7 @@ export default function DenseTable() {
                                         </TableCell>
                                         <TableCell align="right">
                                             <button onClick={getCards}>cards</button>
+                                            <button onClick={getQuestions}>learn</button>
                                         </TableCell>
                                     </TableRow>
                                 )
@@ -122,9 +129,9 @@ export default function DenseTable() {
                 <Paginator totalItemsCount={cardPacksTotalCount} currentPage={page} pageSize={pageCount}/>
                 <span>
                     <select onChange={(e) => selectCallback(e.currentTarget.value)}>
-                        <option>2</option>
                         <option>4</option>
                         <option>6</option>
+                        <option>8</option>
                     </select>
                 </span>
             </div>

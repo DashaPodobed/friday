@@ -68,7 +68,7 @@ export const Header = () => {
                             <nav className={style.nav}>
                                 <MenuItem>
                                     <span className={style.item}>
-                                    <NavLink to="/log_up" activeClassName={style.activeLink}>Log Up</NavLink>
+                                        <NavLink to="/log_up" activeClassName={style.activeLink}><div>Log Up</div></NavLink>
                                         </span>
                                 </MenuItem>
                                 <MenuItem>
@@ -106,12 +106,12 @@ export const Header = () => {
                                                  activeClassName={style.activeLink}>Pack</NavLink>
                                     </span>
                                 </MenuItem>
-                                <MenuItem>
-                                    <span className={style.item}>
-                                        <NavLink to="/cards"
-                                                 activeClassName={style.activeLink}>Cards</NavLink>
-                                    </span>
-                                </MenuItem>
+                                {/*<MenuItem>*/}
+                                {/*    <span className={style.item}>*/}
+                                {/*        <NavLink to="/module"*/}
+                                {/*                 activeClassName={style.activeLink}>Module</NavLink>*/}
+                                {/*    </span>*/}
+                                {/*</MenuItem>*/}
                             </nav>
                         </Menu>
                     </div>
