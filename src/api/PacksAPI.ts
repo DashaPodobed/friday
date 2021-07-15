@@ -19,10 +19,10 @@ export const PacksAPI = {
         )
         return response
     },
-    async createCardPack(){
+    async createCardPack(title: string){
         const response = await instance.post(
             'cards/pack',
-            {cardsPack: {name: "new pack 2.0"}}
+            {cardsPack: {name: title}}
         )
         return response
     },
@@ -33,10 +33,10 @@ export const PacksAPI = {
         )
         return response
     },
-    async updateCardPack(id: string){
+    async updateCardPack(id: string, title: string){
         const response = await instance.put(
             'cards/pack',
-            {cardsPack: {id}}
+            {cardsPack: {_id: id, name: title}}
         )
         return response
     }

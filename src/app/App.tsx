@@ -12,18 +12,17 @@ import {useDispatch, useSelector} from "react-redux";
 import {setUserProfileTC} from "../reducers/r2-LoginReducer";
 import Cards from "../components/Cards/Cards";
 import {AppRootStateType} from "./store";
-import {ModalWindow} from "../components/ModalWindow/ModalWindow";
 import {Learn} from "../components/Learn/Learn";
 
 function App() {
     const dispatch = useDispatch()
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
 
-    // useEffect(()=>{
-    //     if (!isLoggedIn){
-    //         dispatch(setUserProfileTC())
-    //     }
-    // },[dispatch])
+    useEffect(()=>{
+        if (!isLoggedIn){
+            dispatch(setUserProfileTC())
+        }
+    },[dispatch])
 
 
     return (
@@ -37,9 +36,8 @@ function App() {
                 <Route path="/pack" render={() => <PacksList/>}/>
                 <Route path="/cards/:cardsPackId" render={() => <Cards/>}/>
                 <Route path="/set_new_password/:token" render={() => <SetPass/>}/>
-                <Route path="/module" render={() => <ModalWindow/>}/>
                 <Route path="/learn/:id" render={() => <Learn/>}/>
-                {/*<Route path="/*" render={() => <LogIn/>}/>*/}
+                <Route path="/*" render={() => <LogIn/>}/>
             </Switch>
         </div>
     );

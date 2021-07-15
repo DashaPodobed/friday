@@ -21,11 +21,12 @@ export type setCardsAT = ReturnType<typeof setCardsAC>
 
 type ActionType = setCardsAT
 
-export const setCardsTC = (packId?: string | undefined) =>
+export const setCardsTC = (packId?: string | undefined, ) =>
     (dispatch: Dispatch) => {
         CardsAPI.getCards(packId)
             .then(res => {
                 dispatch(setCardsAC(res.data.cards))
+                console.log(res.data)
             })
             .catch((e) => {
                 const error = e.response
@@ -35,9 +36,9 @@ export const setCardsTC = (packId?: string | undefined) =>
             })
     }
 
-export const createNewCardTC = (cardsPack_id: string) =>
+export const createNewCardTC = (cardsPack_id: string, question: string, answer: string) =>
     (dispatch: any) => {
-        CardsAPI.createNewCard(cardsPack_id)
+        CardsAPI.createNewCard(cardsPack_id, question, answer)
             .then(res => {
                 dispatch(setCardsTC(cardsPack_id))
             })
@@ -49,9 +50,9 @@ export const deleteCardTC = (id: string, packId: string) =>
                 dispatch(setCardsTC(packId))
             })
     }
-export const updateCardTC = (id: string, packId: string) =>
+export const updateCardTC = (id: string, packId: string, question?: string, answer?: string) =>
     (dispatch: any) => {
-        CardsAPI.updateCard(id)
+        CardsAPI.updateCard(id, question, answer)
             .then(res => {
                 dispatch(setCardsTC(packId))
             })

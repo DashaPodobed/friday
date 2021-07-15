@@ -61,9 +61,9 @@ export const setPacksListTC = (userId?: string, pageCount?: number, page?: numbe
             })
     }
 
-export const createNewCardPackTC = (userId: string) =>
+export const createNewCardPackTC = (userId: string, title: string) =>
     (dispatch: any) => {
-        PacksAPI.createCardPack()
+        PacksAPI.createCardPack(title)
             .then(res => {
                 dispatch(setPacksListTC(userId))
             })
@@ -75,10 +75,10 @@ export const deleteCardPackTC = (id: string, userId: string) =>
                 dispatch(setPacksListTC(userId))
             })
     }
-export const updateCardPackTC = (id: string) =>
+export const updateCardPackTC = (userId: string, id: string, title: string) =>
     (dispatch: any) => {
-        PacksAPI.updateCardPack(id)
+        PacksAPI.updateCardPack(id, title)
             .then(res => {
-                dispatch(setPacksListTC(id))
+                dispatch(setPacksListTC(userId))
             })
     }

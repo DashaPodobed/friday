@@ -23,6 +23,7 @@ import {Paginator} from "../../features/pagination/Paginator";
 import {Search} from "../../features/search/Search";
 import {SortPacks} from "../../features/SortPacks/SortPacks";
 import {setPageCountAC} from "../../reducers/r12-CurrentDataReducer";
+import {Modal} from "../ModalWindow/ModalWindow";
 
 const useStyles = makeStyles({
     table: {
@@ -34,7 +35,7 @@ export default function DenseTable() {
 
     const dispatch = useDispatch()
     const history = useHistory()
-    const {packName, min, max, currentPageCount} = useSelector((state: AppRootStateType)=> state.currentData)
+    const {packName, min, max, currentPageCount} = useSelector((state: AppRootStateType) => state.currentData)
     const profile = useSelector<AppRootStateType, ResponseType>(state => state.login.profile)
     const packs = useSelector<AppRootStateType, Array<ResponsePackType>>(state => state.packs.cardPacks)
     const {cardPacksTotalCount, pageCount, page} = useSelector((state: AppRootStateType) => state.packs)
@@ -44,6 +45,13 @@ export default function DenseTable() {
         dispatch(setPacksListTC())
     }, [])
 
+    const [isCreate, setCreate] = useState<boolean>(false)
+    const [updatingPackId, setUpdatingPackId] = useState("")
+    const [deletedPackId, setDeletedPackId] = useState("")
+    const [title, setTitle] = useState<string>('')
+    const onClose = () => setCreate(false)
+    const onCloseUpdate = () => setUpdatingPackId('')
+    const onCloseDelete = () => setDeletedPackId('')
 
     const setPrivatePacks = (e: ChangeEvent<HTMLInputElement>) => {
         setIsPrivatePacks(e.currentTarget.checked)
@@ -63,7 +71,9 @@ export default function DenseTable() {
     }
 
     const addNewCardPack = () => {
-        dispatch(createNewCardPackTC(profile._id))
+        dispatch(createNewCardPackTC(profile._id, title))
+        setTitle('')
+        setCreate(false)
     }
 
     const selectCallback = (value: string) => {
@@ -71,12 +81,32 @@ export default function DenseTable() {
         dispatch(setPageCountAC(+value))
     }
 
+    const createTitle = (e: ChangeEvent<HTMLInputElement>) => {
+        setTitle(e.currentTarget.value)
+    }
+
+    const deleteCardPack = (packId: string) => {
+        dispatch(deleteCardPackTC(packId, profile._id))
+        setUpdatingPackId('')
+    }
+
     return (
         <>
+            {isCreate &&
+            <Modal
+                title={"Enter title"}
+                content={<input value={title} onChange={createTitle}/>}
+                footer={<tr>
+                    <button onClick={addNewCardPack}>add</button>
+                    <button onClick={onClose}>Close</button>
+                </tr>}
+                onClose={onClose}
+            />
+            }
             <Search/>
             Private packs
             <input type={"checkbox"} checked={isPrivatePacks} onChange={setPrivatePacks}/>
-            <button onClick={addNewCardPack}>add</button>
+            <button onClick={() => setCreate(true)}>add</button>
             <div style={{display: "flex", justifyContent: "center"}}>
                 <TableContainer component={Paper} style={{width: "60%"}}>
                     <Table className={classes.table} size="small" aria-label="a dense table">
@@ -94,46 +124,70 @@ export default function DenseTable() {
                                 const getQuestions = () => {
                                     history.push(`/learn/${pack._id}`)
                                 }
-                                const deleteCardPack = () => {
-                                    dispatch(deleteCardPackTC(pack._id, profile._id))
-                                }
+
                                 const updateCardPack = () => {
-                                    dispatch(updateCardPackTC(pack._id))
+                                    dispatch(updateCardPackTC(pack.user_id, pack._id, title))
+                                    setTitle('')
+                                    setUpdatingPackId('')
                                 }
                                 const getCards = () => {
                                     history.push(`/cards/${pack._id}`)
                                 }
-
                                 return (
-                                    <TableRow key={pack._id}>
-                                        <TableCell align="left">{pack.name}</TableCell>
-                                        <TableCell align="right">{pack.cardsCount}</TableCell>
-                                        <TableCell align="right">{pack.updated}</TableCell>
-                                        <TableCell align="right">
-                                            <button onClick={updateCardPack}>update</button>
-                                            <button onClick={deleteCardPack}>del</button>
-                                        </TableCell>
-                                        <TableCell align="right">
-                                            <button onClick={getCards}>cards</button>
-                                            <button onClick={getQuestions}>learn</button>
-                                        </TableCell>
-                                    </TableRow>
+                                    <>
+                                        {updatingPackId === pack._id &&
+                                        <Modal
+                                            title={"Enter new title"}
+                                            content={<input value={title} onChange={createTitle}/>}
+                                            footer={<tr key={pack._id}>
+                                                <button onClick={updateCardPack}>update</button>
+                                                <button onClick={onCloseUpdate}>Close</button>
+                                            </tr>}
+                                            onClose={()=>setUpdatingPackId('')}
+                                        />
+                                        }
+
+                                        {deletedPackId === pack._id &&
+                                        <Modal
+                                            title={"Do you want delete?"}
+                                            content={`Click "yes" if you want`}
+                                            footer={<tr key={pack._id}>
+                                                <button onClick={() => deleteCardPack(pack._id)}>Yes</button>
+                                                <button onClick={onCloseDelete}>No</button>
+                                            </tr>}
+                                            onClose={onCloseDelete}
+                                        />
+                                        }
+                                        <TableRow key={pack._id}>
+                                            <TableCell align="left" key={pack._id}>{pack.name}</TableCell>
+                                            <TableCell align="right">{pack.cardsCount}</TableCell>
+                                            <TableCell align="right">{pack.updated}</TableCell>
+                                            <TableCell align="right">
+                                                <button onClick={()=>setUpdatingPackId(pack._id)}>update</button>
+                                                <button onClick={() =>setDeletedPackId(pack._id)}>del</button>
+                                            </TableCell>
+                                            <TableCell align="right">
+                                                <button onClick={getCards}>cards</button>
+                                                <button onClick={getQuestions}>learn</button>
+                                            </TableCell>
+                                        </TableRow>
+                                    </>
                                 )
                             })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </div>
-            <div>
-                <Paginator totalItemsCount={cardPacksTotalCount} currentPage={page} pageSize={pageCount}/>
-                <span>
-                    <select onChange={(e) => selectCallback(e.currentTarget.value)}>
-                        <option>4</option>
-                        <option>6</option>
-                        <option>8</option>
-                    </select>
-                </span>
-            </div>
-        </>
-    );
-}
+                                </TableBody>
+                                </Table>
+                                </TableContainer>
+                                </div>
+                                <div>
+                                <Paginator totalItemsCount={cardPacksTotalCount} currentPage={page} pageSize={pageCount}/>
+                                <span>
+                                <select onChange={(e) => selectCallback(e.currentTarget.value)}>
+                                <option>4</option>
+                                <option>6</option>
+                                <option>8</option>
+                                </select>
+                                </span>
+                                </div>
+                                </>
+                                );
+                            }

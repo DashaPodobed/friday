@@ -4,10 +4,11 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import {NavLink} from "react-router-dom";
+import {NavLink, useHistory} from "react-router-dom";
 import style from "./AppBar.module.css"
 import {Menu, MenuItem} from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
+import {Button} from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -24,6 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export const Header = () => {
+    const history = useHistory()
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const classes = useStyles();
 
@@ -38,6 +40,20 @@ export const Header = () => {
     };
 
     const ITEM_HEIGHT = 48;
+
+    type MenuItemComponentProps = {
+        title: string,
+        path: string
+    }
+    // const MenuItemComponent = (props: MenuItemComponentProps) => {
+    //     return (
+    //         <MenuItem>
+    //             <span className={style.item}>
+    //                 <NavLink to={props.path} activeClassName={style.activeLink}><div>{props.title}</div></NavLink>
+    //             </span>
+    //         </MenuItem>
+    //     )
+    // }
 
     return (
         <div className={classes.root}>
@@ -106,18 +122,19 @@ export const Header = () => {
                                                  activeClassName={style.activeLink}>Pack</NavLink>
                                     </span>
                                 </MenuItem>
-                                {/*<MenuItem>*/}
-                                {/*    <span className={style.item}>*/}
-                                {/*        <NavLink to="/module"*/}
-                                {/*                 activeClassName={style.activeLink}>Module</NavLink>*/}
-                                {/*    </span>*/}
-                                {/*</MenuItem>*/}
                             </nav>
                         </Menu>
                     </div>
                     <Typography variant="h6" className={classes.title}>
                         Project
                     </Typography>
+                    <Button type={'submit'}
+                            variant={'contained'}
+                            color={'primary'}
+                            onClick={() => {
+                                return history.push('/log_in')
+                            }}
+                    >Login</Button>
                 </Toolbar>
             </AppBar>
         </div>
