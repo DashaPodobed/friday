@@ -8,12 +8,14 @@ import {
     Grid, Paper
 } from '@material-ui/core'
 import {useFormik} from "formik";
-import {useHistory} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import {Redirect} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 import {LoginTC} from "../../reducers/r2-LoginReducer";
 import {Preloader} from "../Preloader/Preloader";
 import {ErrorSnackbar} from "../Error/ErrorSnackbar";
 import {DisabledButton} from "../../common/c4-DisabledButton/DisabledButton";
+import {AppRootStateType} from "../../app/store";
+import {ResponseType} from "../../api/LoginAPI";
 
 type FormikErrorType = {
     email?: string
@@ -22,7 +24,8 @@ type FormikErrorType = {
 }
 
 export const LogIn = React.memo(function () {
-    const history = useHistory()
+
+    const profile = useSelector<AppRootStateType, ResponseType>(state => state.login.profile)
     const dispatch = useDispatch()
 
     const formik = useFormik({
@@ -47,10 +50,13 @@ export const LogIn = React.memo(function () {
         },
         onSubmit: values => {
             dispatch(LoginTC(values))
-            history.push('/pack')
             formik.resetForm()
         },
     })
+
+    if (profile._id) {
+        return <Redirect to={'/profile'}/>
+    }
 
     return <div>
         <Preloader/>

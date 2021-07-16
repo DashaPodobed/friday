@@ -4,11 +4,16 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import {NavLink, useHistory} from "react-router-dom";
+import {NavLink, Redirect, useHistory} from "react-router-dom";
 import style from "./AppBar.module.css"
 import {Menu, MenuItem} from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 import {Button} from "@material-ui/core";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "../../app/store";
+import {ResponseType} from "../../api/LoginAPI";
+import {DisabledButton} from "../../common/c4-DisabledButton/DisabledButton";
+import {LogoutTC} from "../../reducers/r2-LoginReducer";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -26,7 +31,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const Header = () => {
     const history = useHistory()
+    const dispatch = useDispatch()
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const profile = useSelector<AppRootStateType, ResponseType>(state => state.login.profile)
     const classes = useStyles();
 
     const open = Boolean(anchorEl);
@@ -45,15 +52,20 @@ export const Header = () => {
         title: string,
         path: string
     }
-    // const MenuItemComponent = (props: MenuItemComponentProps) => {
-    //     return (
-    //         <MenuItem>
-    //             <span className={style.item}>
-    //                 <NavLink to={props.path} activeClassName={style.activeLink}><div>{props.title}</div></NavLink>
-    //             </span>
-    //         </MenuItem>
-    //     )
-    // }
+    const MenuItemComponent = (props: MenuItemComponentProps) => {
+        return (
+            <MenuItem>
+                <span className={style.item}>
+                    <NavLink to={props.path} activeClassName={style.activeLink}><div>{props.title}</div></NavLink>
+                </span>
+            </MenuItem>
+        )
+    }
+
+    const authLogoutHandler = () => {
+        dispatch(LogoutTC())
+        history.push('/log_in');
+    }
 
     return (
         <div className={classes.root}>
@@ -82,59 +94,36 @@ export const Header = () => {
                             }}
                         >
                             <nav className={style.nav}>
-                                <MenuItem>
-                                    <span className={style.item}>
-                                        <NavLink to="/log_up" activeClassName={style.activeLink}><div>Log Up</div></NavLink>
-                                        </span>
-                                </MenuItem>
-                                <MenuItem>
-                                    <span className={style.item}>
-                                    <NavLink to="/log_in" activeClassName={style.activeLink}>Log In</NavLink>
-                                        </span>
-                                </MenuItem>
-                                <MenuItem>
-                                    <span className={style.item}>
-                                        <NavLink to="/profile" activeClassName={style.activeLink}>Profile</NavLink>
-                                    </span>
-                                </MenuItem>
-                                <MenuItem>
-                                    <span className={style.item}>
-                                        <NavLink to="/forgot" activeClassName={style.activeLink}>Forgot</NavLink>
-                                    </span>
-                                </MenuItem>
-                                <MenuItem>
-                                    <span className={style.item}>
-                                        <NavLink to="/set_new_password/:token" activeClassName={style.activeLink}>Set
-                                            a
-                                            new
-                                            password</NavLink>
-                                    </span>
-                                </MenuItem>
-                                <MenuItem>
-                                    <span className={style.item}>
-                                        <NavLink to="/error404"
-                                                 activeClassName={style.activeLink}>Error404</NavLink>
-                                    </span>
-                                </MenuItem>
-                                <MenuItem>
-                                    <span className={style.item}>
-                                        <NavLink to="/pack"
-                                                 activeClassName={style.activeLink}>Pack</NavLink>
-                                    </span>
-                                </MenuItem>
+                                <MenuItemComponent title={"Log Up"} path={"/log_up"}/>
+                                <MenuItemComponent title={"Log In"} path={"/log_in"}/>
+                                <MenuItemComponent title={"Profile"} path={"/profile"}/>
+                                <MenuItemComponent title={"Forgot"} path={"/forgot"}/>
+                                <MenuItemComponent title={"Set a new password"} path={"/set_new_password/:token"}/>
+                                <MenuItemComponent title={"Pack"} path={"/pack"}/>
+                                {/*<MenuItem>*/}
+                                {/*    <span className={style.item}>*/}
+                                {/*        <NavLink to="/set_new_password/:token" activeClassName={style.activeLink}>Set*/}
+                                {/*            a*/}
+                                {/*            new*/}
+                                {/*            password</NavLink>*/}
+                                {/*    </span>*/}
+                                {/*</MenuItem>*/}
                             </nav>
                         </Menu>
                     </div>
                     <Typography variant="h6" className={classes.title}>
                         Project
                     </Typography>
-                    <Button type={'submit'}
-                            variant={'contained'}
-                            color={'primary'}
-                            onClick={() => {
-                                return history.push('/log_in')
-                            }}
-                    >Login</Button>
+                    {profile._id
+                        ? <DisabledButton variant={'contained'}  title={"Log Out"} callback={authLogoutHandler}/>
+                        : <Button type={'submit'}
+                                  variant={'contained'}
+                                  color={'primary'}
+                                  onClick={() => {
+                                      return history.push('/log_in')
+                                  }}
+                        >Login</Button>
+                    }
                 </Toolbar>
             </AppBar>
         </div>

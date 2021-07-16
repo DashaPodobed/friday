@@ -33,8 +33,6 @@ export const PacksReducer = (state: InitialStateType = InitialState, action: Act
                 searchPackName: action.searchPackName,
                 sortPacks: action.sortPacks
             }
-        case "PACKS/CREATE-NEW-CARD":
-            return {...state}
         default:
             return state
     }
@@ -51,13 +49,11 @@ const setAdditionalDataAC = (pageCount?: number, page?: number, searchPackName?:
     maxCardsCount,
     sortPacks
 } as const)
-export const createNewCardsAC = () => ({type: "PACKS/CREATE-NEW-CARD"} as const)
 
 export type SetPacksListAT = ReturnType<typeof setPacksListAC>
-export type CreateNewCardsAT = ReturnType<typeof createNewCardsAC>
 export type SetAdditionalDataAT = ReturnType<typeof setAdditionalDataAC>
 
-type ActionType = SetPacksListAT | CreateNewCardsAT | SetAdditionalDataAT
+type ActionType = SetPacksListAT  | SetAdditionalDataAT
 
 export const setPacksListTC = (userId?: string, pageCount?: number, page?: number,
                                searchPackName?: string, minCardsCount?: number, maxCardsCount?: number,
