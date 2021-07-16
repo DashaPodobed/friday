@@ -1,10 +1,21 @@
 import {instance} from "./a1-instance";
 
 export const CardsAPI = {
-    async getCards(cardsPack_id?: string) {
+    async getCards(cardsPack_id?: string, maxGrade?: number, minGrade?: number, page?: number,
+                   pageCount?: number,  searchCardQuestion?: string, sortCards?: string) {
         const response = await instance.get(
             'cards/card',
-            {params: {cardsPack_id}}
+            {
+                params: {
+                    cardsPack_id,
+                    max: maxGrade,
+                    min: minGrade,
+                    page,
+                    pageCount,
+                    sortCards,
+                    cardQuestion: searchCardQuestion
+                }
+            }
         )
         return response
     },
@@ -47,9 +58,3 @@ export type ResponseCardType = {
     comment: string
     more_id: string
 }
-// cardsTotalCount: number
-// maxGrade: number
-// minGrade: number
-// page: number
-// pageCount: number
-// packUserId: string

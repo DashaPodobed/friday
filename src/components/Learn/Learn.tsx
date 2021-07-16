@@ -23,8 +23,10 @@ const getCard = (cards: ResponseCardType[]) => {
 export const Learn = () => {
     const [isChecked, setIsChecked] = useState<boolean>(false);
     const [first, setFirst] = useState<boolean>(true);
-    // const [first, setFirst] = useState<boolean>(0);
-    const cards = useSelector<AppRootStateType, Array<ResponseCardType>>(state => state.cards);
+    const {
+        cards, maxGrade, sortCards,
+        minGrade, page, pageCount, searchCardQuestion
+    } = useSelector((state: AppRootStateType) => state.cards)
     const {id} = useParams<{ id: string }>();
 
     const [card, setCard] = useState<ResponseCardType>({
@@ -74,7 +76,8 @@ export const Learn = () => {
     }
 
     const sendGrade = (grade: number) => {
-        dispatch(sendUpdatedGradeTC(grade, card._id, card.cardsPack_id))
+        dispatch(sendUpdatedGradeTC(grade, card._id, card.cardsPack_id, maxGrade, minGrade,
+            page, pageCount, searchCardQuestion, sortCards))
     }
 
     return (

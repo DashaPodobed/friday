@@ -9,11 +9,13 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../app/store";
-import {ResponseCardType} from "../../api/CardsAPI";
 import {createNewCardTC, deleteCardTC, setCardsTC, updateCardTC} from "../../reducers/r10-CardsReducer";
 import {useParams} from "react-router-dom";
 import {ErrorSnackbar} from "../Error/ErrorSnackbar";
 import {Modal} from "../ModalWindow/ModalWindow";
+import {Paginator} from "../../features/pagination/Paginator";
+import {SortElements} from "../../features/SortPacks/SortElements";
+import {Search} from "../../features/search/Search";
 
 const useStyles = makeStyles({
     table: {
@@ -22,12 +24,16 @@ const useStyles = makeStyles({
 });
 
 export default function Cards() {
+
     const dispatch = useDispatch()
-    const cards = useSelector<AppRootStateType, Array<ResponseCardType>>(state => state.cards)
+    const {
+        cards, cardsTotalCount, maxGrade, sortCards,
+        minGrade, page, pageCount, searchCardQuestion
+    } = useSelector((state: AppRootStateType) => state.cards)
     const {cardsPackId} = useParams<{ cardsPackId: string }>()
 
     useEffect(() => {
-        dispatch(setCardsTC(cardsPackId))
+        dispatch(setCardsTC(cardsPackId, maxGrade, minGrade, page, pageCount, searchCardQuestion, sortCards))
     }, [dispatch, cardsPackId])
 
     const classes = useStyles();
@@ -42,7 +48,7 @@ export default function Cards() {
     const onCloseDelete = () => setDeletedCardId("")
 
     const addNewCard = () => {
-        dispatch(createNewCardTC(cardsPackId, question, answer))
+        dispatch(createNewCardTC(cardsPackId, question, answer, maxGrade, minGrade, page, pageCount, searchCardQuestion, sortCards))
         setQuestion("")
         setAnswer("")
         setCreate(false)
@@ -53,6 +59,26 @@ export default function Cards() {
     }
     const createAnswer = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setAnswer(e.currentTarget.value)
+    }
+
+    const selectCallback = (value: string) => {
+        dispatch(setCardsTC(cardsPackId, maxGrade, minGrade, page, +value, searchCardQuestion, sortCards))
+    }
+
+    const searchCallback = (value0: number, value1: number, text: string) => {
+        dispatch(setCardsTC(cardsPackId, value1, value0, page, pageCount, text, sortCards))
+    }
+
+    const onPageChanged = (pageNumber: number) => {
+        dispatch(setCardsTC(cardsPackId, maxGrade, minGrade, pageNumber, pageCount, searchCardQuestion, sortCards))
+    }
+
+    const sortHandler1 = (title: string) => {
+        dispatch(setCardsTC(cardsPackId, maxGrade, minGrade, page, pageCount, searchCardQuestion, title))
+    }
+
+    const sortHandler0 = (title: string) => {
+        dispatch(setCardsTC(cardsPackId, maxGrade, minGrade, page, pageCount, searchCardQuestion, title))
     }
 
     return (
@@ -80,6 +106,7 @@ export default function Cards() {
                 onClose={onClose}
             />
             }
+            <Search searchCallback={searchCallback}/>
             <div style={{display: "flex", justifyContent: "center"}}>
                 <ErrorSnackbar/>
                 <TableContainer component={Paper} style={{width: "60%"}}>
@@ -89,8 +116,8 @@ export default function Cards() {
                             <TableRow>
                                 <TableCell>question</TableCell>
                                 <TableCell align="right">answer</TableCell>
-                                <TableCell align="right">grade</TableCell>
-                                <TableCell align="right">updated</TableCell>
+                                <TableCell align="right">grade<SortElements sortHandler1={sortHandler1} sortHandler0={sortHandler0} title={"grade"}/></TableCell>
+                                <TableCell align="right">updated<SortElements sortHandler1={sortHandler1} sortHandler0={sortHandler0} title={"updated"}/></TableCell>
                                 <button onClick={() => setCreate(true)}>add new card</button>
                             </TableRow>
                         </TableHead>
@@ -98,10 +125,10 @@ export default function Cards() {
                             {cards.map((card) => {
 
                                 const deleteCard = () => {
-                                    dispatch(deleteCardTC(card._id, card.cardsPack_id))
+                                    dispatch(deleteCardTC(card._id, card.cardsPack_id, maxGrade, minGrade, page, pageCount, searchCardQuestion, sortCards))
                                 }
                                 const updateCard = () => {
-                                    dispatch(updateCardTC(card._id, card.cardsPack_id, question, answer))
+                                    dispatch(updateCardTC(card._id, card.cardsPack_id, question, answer, maxGrade, minGrade, page, pageCount, searchCardQuestion, sortCards))
                                     setQuestion('')
                                     setAnswer('')
                                     setUpdatingCardId('')
@@ -119,7 +146,8 @@ export default function Cards() {
                                                     </div>
                                                     {"Enter your answer"}
                                                     <div>
-                                                        <textarea value={answer} onChange={createAnswer}>{"Enter your answer"}</textarea>
+                                                        <textarea value={answer}
+                                                                  onChange={createAnswer}>{"Enter your answer"}</textarea>
                                                     </div>
                                                 </div>
                                             }
@@ -151,9 +179,9 @@ export default function Cards() {
                                             <TableCell align="right">
                                             </TableCell>
                                             <TableCell align="right">
-                                                <button onClick={()=>setUpdatingCardId(card._id)}>update
+                                                <button onClick={() => setUpdatingCardId(card._id)}>update
                                                 </button>
-                                                <button onClick={()=>setDeletedCardId(card._id)}>del
+                                                <button onClick={() => setDeletedCardId(card._id)}>del
                                                 </button>
                                             </TableCell>
                                         </TableRow>
@@ -163,6 +191,16 @@ export default function Cards() {
                         </TableBody>
                     </Table>
                 </TableContainer>
+            </div>
+            <div>
+                <Paginator totalItemsCount={cardsTotalCount} currentPage={page} pageSize={pageCount} onPageChanged={onPageChanged}/>
+                <span>
+                                <select onChange={(e) => selectCallback(e.currentTarget.value)}>
+                                <option>4</option>
+                                <option>6</option>
+                                <option>8</option>
+                                </select>
+                                </span>
             </div>
         </>
     );

@@ -1,8 +1,8 @@
 import {instance} from "./a1-instance";
 
 export const PacksAPI = {
-    async getPacks(id?: string | null, pageCount?: number | null, page?: number | null,
-                   packName?: string | null, min?: number | null, max?: number | null, sortPacks?: string | null) {
+    async getPacks(id?: string, pageCount?: number, page?: number, searchPackName?: string, min?: number,
+                   max?: number, sortPacks?: string) {
         const response = await instance.get(
             `cards/pack`,
             {
@@ -10,7 +10,7 @@ export const PacksAPI = {
                     user_id: id,
                     pageCount,
                     page,
-                    packName,
+                    packName: searchPackName,
                     min,
                     max,
                     sortPacks
@@ -19,21 +19,21 @@ export const PacksAPI = {
         )
         return response
     },
-    async createCardPack(title: string){
+    async createCardPack(title: string) {
         const response = await instance.post(
             'cards/pack',
             {cardsPack: {name: title}}
         )
         return response
     },
-    async deleteCardPack(id: string){
+    async deleteCardPack(id: string) {
         const response = await instance.delete(
             'cards/pack',
             {params: {id}}
         )
         return response
     },
-    async updateCardPack(id: string, title: string){
+    async updateCardPack(id: string, title: string) {
         const response = await instance.put(
             'cards/pack',
             {cardsPack: {_id: id, name: title}}
@@ -59,9 +59,3 @@ export type ResponsePackType = {
     created: string
     updated: string
 }
-
-
-// export type PacksListType = {
-//     data: ResponsePackType[]
-//     error: string
-// }
