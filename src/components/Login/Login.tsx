@@ -68,6 +68,7 @@ export const LogIn = React.memo(function () {
                         <form onSubmit={formik.handleSubmit}>
                             <FormGroup>
                                 <div>Enter your email and password to login</div>
+                                <div>email: dariamakarchik@gmail.com</div>
                                 <div>password: qwertyui</div>
                                 <TextField
                                     label="Email"
